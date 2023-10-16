@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Post {
+  id            String   @id @default(cuid()) @map("_id")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  title         String
+  content       String
+  downloadlink  String
+  playstorelink String
+  modtype       ModTypes
+  published     Boolean  @default(false)
+  urlString     String   @unique @map("url_string") // This is the url string that will be used to access the post
+}
+
+enum ModTypes {
+  OTT
+  Featured
+  Other
+}
